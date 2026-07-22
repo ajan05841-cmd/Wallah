@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>XXL Magazine - Trending Videos</title>
+
+<!-- Facebook Preview -->
+<meta property="og:title" content="XXL Magazine - Trending Videos" />
+<meta property="og:description" content="Watch latest trending videos and updates" />
+<meta property="og:image" content="https://yzudtwgyhbfcftdqggmv.supabase.co/storage/v1/object/public/der/ust2.svg" />
+<meta property="og:type" content="website" />
+
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #0d0d0d; font-family: 'Roboto', Arial, sans-serif; color: #fff; }
+    
+    header {
+        background: #161616;
+        padding: 10px 15px;
+        border-bottom: 2px solid #ff9000;
+        position: sticky; top: 0; z-index: 100;
+        display: flex; flex-direction: column; gap: 10px;
+    }
+    header h1 { font-size: 22px; color: #ff9000; font-weight: 900; text-align: center; }
+    
+    .search-box input {
+        padding: 12px 15px;
+        border-radius: 25px;
+        border: none;
+        background: #222;
+        color: #fff;
+        width: 100%;
+        font-size: 16px; /* mobile par zoom na ho */
+        outline: none;
+    }
+
+    .container { padding: 15px; max-width: 1500px; margin: auto; }
+    .section-title { font-size: 18px; margin-bottom: 15px; border-left: 4px solid #ff9000; padding-left: 10px; }
+
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Mobile: 2 column */
+        gap: 12px;
+    }
+
+    /* Tablet */
+    @media (min-width: 768px) {
+        .gallery-container { grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        header { flex-direction: row; }
+        header h1 { text-align: left; }
+        .search-box input { width: 280px; }
+    }
+    /* Desktop */
+    @media (min-width: 1024px) {
+        .gallery-container { grid-template-columns: repeat(4, 1fr); }
+        .container { padding: 30px; }
+    }
+
+    .video-item { display: none; }
+    .video-item.show { display: block; }
+
+    .video-card {
+        position: relative; display: block; border-radius: 8px; overflow: hidden;
+        aspect-ratio: 16 / 9; background-color: #222;
+    }
+    .video-card:active { transform: scale(0.97); } /* mobile touch effect */
+    .video-thumbnail { width: 100%; height: 100%; object-fit: cover; }
+    .duration {
+        position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.85);
+        padding: 2px 5px; font-size: 11px; border-radius: 3px; font-weight: bold;
+    }
+    .play-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+        background: rgba(0, 0, 0, 0.2); opacity: 0; transition: opacity 0.2s ease;
+    }
+    .video-card:active .play-overlay { opacity: 1; } /* mobile par touch me dikhe */
+    .play-button {
+        width: 45px; height: 45px; background: rgba(255, 144, 0, 0.9);
+        border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    }
+    .play-icon {
+        width: 0; height: 0;
+        border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+        border-left: 14px solid #000; margin-left: 2px;
+    }
+    .video-title {
+        padding: 8px 3px; font-size: 13px; font-weight: 500; color: #ddd;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Pagination - Mobile friendly */
+    .pagination {
+        display: flex; justify-content: center; align-items: center;
+        margin-top: 30px; gap: 8px; flex-wrap: wrap;
+    }
+    .pagination button {
+        background: #222; color: #fff; border: 1px solid #444;
+        padding: 14px 20px; border-radius: 8px; cursor: pointer;
+        font-weight: bold; font-size: 16px; min-width: 120px;
+    }
+    .pagination button:active { background: #ff9000; color: #000; }
+    .pagination button:disabled { background: #111; color: #555; }
+    .page-info { color: #aaa; width: 100%; text-align: center; padding: 5px 0; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>XXL MAGAZINE</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search videos...">
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="section-title">Trending Now</h2>
+    <div class="gallery-container" id="gallery">
+        
+        <!-- 24 VIDEOS - YAHAN APNI LINK AUR TITLE DALO -->
+        <div class="video-item" data-title="Video Title 1 HD"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">10:24</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 1 HD</div></div>
+        <div class="video-item" data-title="Video Title 2 New"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">08:15</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 2 New</div></div>
+        <div class="video-item" data-title="Video Title 3 Popular"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">15:42</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 3 Popular</div></div>
+        <div class="video-item" data-title="Video Title 4"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">12:30</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 4</div></div>
+        <div class="video-item" data-title="Video Title 5"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">05:11</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 5</div></div>
+        <div class="video-item" data-title="Video Title 6"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">22:05</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 6</div></div>
+        <div class="video-item" data-title="Video Title 7"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">09:40</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 7</div></div>
+        <div class="video-item" data-title="Video Title 8"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">14:22</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 8</div></div>
+        <div class="video-item" data-title="Video Title 9"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">07:55</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 9</div></div>
+        <div class="video-item" data-title="Video Title 10"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">18:33</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 10</div></div>
+        <div class="video-item" data-title="Video Title 11"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">11:01</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 11</div></div>
+        <div class="video-item" data-title="Video Title 12"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">06:44</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 12</div></div>
+        <div class="video-item" data-title="Video Title 13"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">20:10</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 13</div></div>
+        <div class="video-item" data-title="Video Title 14"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">04:59</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 14</div></div>
+        <div class="video-item" data-title="Video Title 15"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">13:27</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 15</div></div>
+        <div class="video-item" data-title="Video Title 16"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">16:18</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 16</div></div>
+        <div class="video-item" data-title="Video Title 17"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">08:08</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 17</div></div>
+        <div class="video-item" data-title="Video Title 18"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">25:00</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 18</div></div>
+        <div class="video-item" data-title="Video Title 19"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">10:10</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 19</div></div>
+        <div class="video-item" data-title="Video Title 20"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">07:07</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 20</div></div>
+        <div class="video-item" data-title="Video Title 21"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">19:45</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 21</div></div>
+        <div class="video-item" data-title="Video Title 22"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index.svg" class="video-thumbnail"><span class="duration">12:12</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 22</div></div>
+        <div class="video-item" data-title="Video Title 23"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index1.svg" class="video-thumbnail"><span class="duration">09:09</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 23</div></div>
+        <div class="video-item" data-title="Video Title 24"><a href="https://guyprior.com/spidvq52?key=3b78e7dd57e608c0b0f4903b754aaf5e" class="video-card"><img src="https://sljxljcbnevxwzjryoye.supabase.co/storage/v1/object/public/2/index2.svg" class="video-thumbnail"><span class="duration">14:14</span><div class="play-overlay"><div class="play-button"><div class="play-icon"></div></div></div></a><div class="video-title">Video Title 24</div></div>
+
+    </div>
+
+    <div class="pagination">
+        <button id="prevBtn">Previous</button>
+        <span class="page-info" id="pageInfo">Page 1 of 3</span>
+        <button id="nextBtn">Next</button>
+    </div>
+</div>
+
+<script>
+    const itemsPerPage = 12; 
+    const gallery = document.getElementById('gallery');
+    const items = Array.from(gallery.getElementsByClassName('video-item'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+    const searchInput = document.getElementById('searchInput');
+    let currentPage = 1;
+    let filteredItems = items;
+
+    function showPage(page) {
+        const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        items.forEach(item => item.classList.remove('show'));
+        filteredItems.slice(start, end).forEach(item => item.classList.add('show'));
+
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+        window.scrollTo({top: 0, behavior: 'smooth'}); // page change par upar jaye
+    }
+
+    nextBtn.addEventListener('click', () => showPage(currentPage + 1));
+    prevBtn.addEventListener('click', () => showPage(currentPage - 1));
+
+    searchInput.addEventListener('keyup', () => {
+        const query = searchInput.value.toLowerCase();
+        filteredItems = items.filter(item => item.dataset.title.toLowerCase().includes(query));
+        showPage(1);
+    });
+
+    showPage(1);
+</script>
+
+</body>
+</html>
